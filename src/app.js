@@ -2,22 +2,27 @@ const express = require("express");
 
 const app = express();
 
-//Order of the routes matters alot
-
-//This is how we use dynamic values and access by req.params
-app.get("/user/:id/:name/:password", (req, res) => {
-  console.log(req.params);
-  res.send({
-    firstName: "Dwarakesh",
-    lastName: "DK",
-  });
-});
-
-//Here we use req.query to access the query in the url which is after the "?"
-app.post("/user", (req, res) => {
-  console.log(req.query);
-  res.send("Sent successfully");
-});
+app.use(
+  "/user",
+  [
+    (req, res, next) => {
+      console.log("Request handler 1");
+      // res.send("Send Successfully 1");
+      next();
+    },
+  ],
+  [
+    (req, res, next) => {
+      console.log("Request handler 2");
+      // res.send("Send successfully 2");
+      next();
+    },
+    (req, res, next) => {
+      console.log("Request handler 3");
+      res.send("Send successfully 3");
+    },
+  ]
+);
 
 app.listen(3000, () => {
   console.log("Server starting at port 3000");
