@@ -1,20 +1,28 @@
 const express = require("express");
 
 const app = express();
-const { adminAuth, userAuth } = require("./middlewares/auth");
 
-app.use("/admin", adminAuth);
-// app.use("/user", );
-
-app.get("/admin/getAllData", (req, res) => {
-  res.send("Data sent successfully");
+app.use("/", (err, req, res, next) => {
+  if (err) {
+    res.status(500).send("Something went wrong");
+  }
 });
 
-app.get("/user/userData", userAuth, (req, res) => {
-  res.send("User data sent");
+app.get("/getUserData", (req, res) => {
+  // try {
+  throw new Error("abcd");
+  res.send("Send User Data");
+  // } catch (err) {
+  //   if (err) {
+  //     res.status(500).send("Something went wrong");
+  //   }
+  // }
 });
-app.post("/user/login", (req, res) => {
-  res.send("User logged in successfully");
+
+app.use("/", (err, req, res, next) => {
+  if (err) {
+    res.status(500).send("Something went wrong");
+  }
 });
 
 app.listen(3000, () => {
