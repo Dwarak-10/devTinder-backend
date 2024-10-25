@@ -3,14 +3,28 @@ const connectDB = require("./config/database");
 const User = require("./models/user");
 const app = express();
 const validator = require("validator");
+const { validationData } = require("./utils/validation");
+const bcrypt = require("bcrypt");
 
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
-  //Creating a new instance of the user model
-  const user = new User(req.body);
-  console.log(req.body);
   try {
+    // 1. validating the data
+    validationData(req);
+
+    const { firstName, lastName, emailId, password } = req.body;
+    // 2. password encryption
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    //Creating a new instance of the user model
+    const user = new User({
+      firstName,
+      lastName,
+      emailId,
+      password: hashedPassword,
+    });
+
     if (!validator.isStrongPassword(user.password)) {
       throw new Error("Enter a strong password : " + user.password);
     }
