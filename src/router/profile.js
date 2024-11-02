@@ -9,7 +9,7 @@ profileRouter.get("/profile/view", userAuth, async (req, res) => {
     const user = req.user;
     res.send(user);
   } catch (err) {
-    res.status(400).send("Somethinf went wrong" + err);
+    res.status(400).send("Error : " + err);
   }
 });
 
@@ -32,7 +32,8 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
       data: loggedInUser,
     });
   } catch (err) {
-    res.status(400).send("Somethinf went wrong" + err);
+    res.status(400).send("Error : " + err);
   }
 });
+
 module.exports = profileRouter;
