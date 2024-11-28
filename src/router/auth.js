@@ -25,8 +25,16 @@ authRouter.post("/signup", async (req, res) => {
     if (!validator.isStrongPassword(user.password)) {
       throw new Error("Enter a strong password : " + user.password);
     }
-    await user.save();
-    res.send("User data send successfully");
+    // await user.save();
+    // res.send("User data send successfully");
+    const savedUser = await user.save();
+    const token = await savedUser.getJWT();
+
+    res.cookie("token", token, {
+      expires: new Date(Date.now() + 8 * 3600000),
+    });
+
+    res.json({ message: "User Added successfully!", data: savedUser });
   } catch (err) {
     res.status(400).send("Error saving the user" + err.message);
   }
@@ -55,7 +63,7 @@ authRouter.post("/login", async (req, res) => {
         expires: new Date(Date.now() + 8 * 360000),
       });
 
-      res.send("Login Successfully");
+      res.send(user);
     }
   } catch (err) {
     res.status(400).send("Error :" + err.message);
