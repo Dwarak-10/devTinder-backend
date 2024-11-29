@@ -55,7 +55,7 @@ requestRouter.post(
         data,
       });
     } catch (err) {
-      res.status(400).send("Somethinf went wrong" + err);
+      res.status(400).send("Something went wrong " + err);
     }
   }
 );
