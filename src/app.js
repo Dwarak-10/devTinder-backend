@@ -5,11 +5,12 @@ const connectDB = require("./config/database");
 const app = express();
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const FRONTEND_URL = process.env.FRONTEND_URL;
 
 app.use(
   cors({
     // origin: "http://localhost:5173",
-    origin: process.env.FRONTEND_URL,
+    origin: FRONTEND_URL,
     credentials: true,
   })
 );
