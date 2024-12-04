@@ -5,12 +5,11 @@ const connectDB = require("./config/database");
 const app = express();
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-const FRONTEND_URL = process.env.FRONTEND_URL;
 
 app.use(
   cors({
     // origin: "http://localhost:5173",
-    origin: FRONTEND_URL,
+    origin: "https://devtinder-1.netlify.app",
     credentials: true,
   })
 );
